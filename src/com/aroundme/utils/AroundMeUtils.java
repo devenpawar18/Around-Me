@@ -77,13 +77,13 @@ public class AroundMeUtils {
 	 */
 	public static List<String> getList() {
 		List<String> categoryList = new ArrayList<String>();
-		categoryList.add("Restaurants Around Me!");
-		categoryList.add("Cafes Around Me!");
-		categoryList.add("Weather Around Me!");
-		categoryList.add("ATM's Around Me!");
-		categoryList.add("Sightseeing Around Me!");
-		categoryList.add("Lodging Around Me!");
-		categoryList.add("Services Around Me!");
+		categoryList.add("Restaurants");
+		categoryList.add("Cafes");
+		categoryList.add("Weather");
+		categoryList.add("ATM's!");
+		categoryList.add("Sightseeing");
+		categoryList.add("Lodging");
+		categoryList.add("Services");
 
 		return categoryList;
 
@@ -97,19 +97,19 @@ public class AroundMeUtils {
 	public static String getEventValue(String key) {
 		String value = "";
 
-		if (key.equalsIgnoreCase("Restaurants Around Me!"))
+		if (key.equalsIgnoreCase("Restaurants"))
 			value = "restaurant";
-		else if (key.equalsIgnoreCase("Cafes Around Me!"))
+		else if (key.equalsIgnoreCase("Cafes"))
 			value = "cafe";
-		else if (key.equalsIgnoreCase("Sightseeing Around Me!"))
+		else if (key.equalsIgnoreCase("Sightseeing"))
 			value = "amusement_park|aquarium|art_gallery|museum|zoo";
-		else if (key.equalsIgnoreCase("ATM's Around Me!"))
+		else if (key.equalsIgnoreCase("ATM's"))
 			value = "atm";
-		else if (key.equalsIgnoreCase("Services Around Me!"))
+		else if (key.equalsIgnoreCase("Services"))
 			value = "gas_station|car_repair|car_wash|hospital";
-		else if (key.equalsIgnoreCase("Lodging Around Me!"))
+		else if (key.equalsIgnoreCase("Lodging"))
 			value = "lodging";
-		else if (key.equalsIgnoreCase("Weather Around Me!"))
+		else if (key.equalsIgnoreCase("Weather"))
 			value = "weather";
 
 		return value;

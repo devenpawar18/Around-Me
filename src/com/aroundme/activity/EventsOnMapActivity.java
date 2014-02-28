@@ -35,8 +35,10 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aroundme.ApplicationEx;
 import com.aroundme.R;
@@ -112,7 +114,7 @@ public class EventsOnMapActivity extends AroundMeBaseActivity implements
 
 		actionBar.setTitle(Html.fromHtml(title));
 
-		ApplicationEx.key = "Restaurants Around Me!";
+		ApplicationEx.key = "Restaurants";
 
 		try {
 
@@ -166,14 +168,20 @@ public class EventsOnMapActivity extends AroundMeBaseActivity implements
 	}
 
 	public void getCategories() {
-		Constants.setRangeInMeters();
-		pd = ProgressDialog.show(EventsOnMapActivity.this, "",
-				"Loading Events...", true);
-		RetrieveEventsService service = new RetrieveEventsService(
-				getApplicationContext(), searchQuery,
-				ApplicationEx.currentLocation, ApplicationEx.rangeInMeters);
-		service.setListener(this);
-		ApplicationEx.operationsQueue.execute(service);
+		if (!AroundMeUtils.isConnectionAvailable(EventsOnMapActivity.this)) {
+			Toast.makeText(EventsOnMapActivity.this,
+					"Network Error. Please check the connection...",
+					Toast.LENGTH_SHORT).show();
+		} else {
+			Constants.setRangeInMeters();
+			pd = ProgressDialog.show(EventsOnMapActivity.this, "",
+					"Loading Events...", true);
+			RetrieveEventsService service = new RetrieveEventsService(
+					getApplicationContext(), searchQuery,
+					ApplicationEx.currentLocation, ApplicationEx.rangeInMeters);
+			service.setListener(this);
+			ApplicationEx.operationsQueue.execute(service);
+		}
 	}
 
 	/** Demonstrates customizing the info window and/or its contents. */
@@ -398,7 +406,7 @@ public class EventsOnMapActivity extends AroundMeBaseActivity implements
 				startActivity(intent);
 			} else {
 				String title = "<font color=#EDC999>" + " " + ApplicationEx.key
-						+ "</font>";
+						+ " Around ME!" + "</font>";
 				actionBar.setTitle(Html.fromHtml(title));
 				getCategories();
 			}
@@ -461,17 +469,40 @@ public class EventsOnMapActivity extends AroundMeBaseActivity implements
 			if (convertView == null) {
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				convertView = inflater
-						.inflate(R.layout.activity_list_row, null);
+				convertView = inflater.inflate(
+						R.layout.activity_category_list_row, null);
 				activitiesViewHolder = new ActivitiesViewHolder();
 				activitiesViewHolder.itemTextView = (TextView) convertView
 						.findViewById(R.id.item);
+				activitiesViewHolder.imageView = (ImageView) convertView
+						.findViewById(R.id.img);
 			} else {
 				activitiesViewHolder = (ActivitiesViewHolder) convertView
 						.getTag();
 			}
 			String item = categoryList.get(position);
 			activitiesViewHolder.itemTextView.setText(item);
+			if (position == 0)
+				activitiesViewHolder.imageView.setImageDrawable(getResources()
+						.getDrawable(R.drawable.ic_restaurant));
+			else if (position == 1)
+				activitiesViewHolder.imageView.setImageDrawable(getResources()
+						.getDrawable(R.drawable.ic_cafe));
+			else if (position == 2)
+				activitiesViewHolder.imageView.setImageDrawable(getResources()
+						.getDrawable(R.drawable.ic_weather));
+			else if (position == 3)
+				activitiesViewHolder.imageView.setImageDrawable(getResources()
+						.getDrawable(R.drawable.ic_atm));
+			else if (position == 4)
+				activitiesViewHolder.imageView.setImageDrawable(getResources()
+						.getDrawable(R.drawable.ic_sight));
+			else if (position == 5)
+				activitiesViewHolder.imageView.setImageDrawable(getResources()
+						.getDrawable(R.drawable.ic_lodging));
+			else if (position == 6)
+				activitiesViewHolder.imageView.setImageDrawable(getResources()
+						.getDrawable(R.drawable.ic_services));
 			convertView.setTag(activitiesViewHolder);
 			convertView.setTag(R.id.id_name, item);
 			convertView.setTag(R.id.mdActiveViewPosition, position);
@@ -491,6 +522,7 @@ public class EventsOnMapActivity extends AroundMeBaseActivity implements
 		 */
 		private class ActivitiesViewHolder {
 			TextView itemTextView;
+			ImageView imageView;
 		}
 	}
 
@@ -582,6 +614,9 @@ public class EventsOnMapActivity extends AroundMeBaseActivity implements
 				ApplicationEx.myCity = addresses.get(0).getLocality();
 				getCategories();
 			} catch (IOException e) {
+				Toast.makeText(EventsOnMapActivity.this,
+						"Network Error. Please check the connection...",
+						Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			}
 

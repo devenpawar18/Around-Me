@@ -69,10 +69,10 @@ public class CategoryListAdapter extends BaseAdapter {
 			contactsViewHolder = (ContactsViewHolder) convertView.getTag();
 		}
 		Category category = categoryList.get(position);
-		if (ApplicationEx.key.equalsIgnoreCase("Sightseeing Around Me!")
+		if (ApplicationEx.key.equalsIgnoreCase("Sightseeing")
 				|| ApplicationEx.key.equalsIgnoreCase("Services")) {
 			String categoryStr = "<font color=#cc0029>" + category.getName()
-					+ ", " + "</font> <font color=#ffcc00>"
+					+ ", " + "</font> <font color=#003366>"
 					+ category.getTypes() + "</font>";
 			contactsViewHolder.name.setText(Html.fromHtml(categoryStr));
 

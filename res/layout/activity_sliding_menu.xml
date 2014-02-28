@@ -13,7 +13,8 @@
         android:padding="10dip"
         android:text="@string/categories"
         android:textColor="@color/white"
-        android:textSize="16dip" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <View
         android:id="@+id/divider"

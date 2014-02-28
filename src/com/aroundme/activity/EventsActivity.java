@@ -49,7 +49,7 @@ public class EventsActivity extends AroundMeBaseActivity {
 				+ " "
 				+ intent.getExtras().getString(
 						getResources().getString(R.string.category))
-				+ "</font>";
+				+ " Around ME!" + "</font>";
 		actionBarSherlock.setTitle(Html.fromHtml(title));
 
 		categoryListView = (ListView) findViewById(R.id.category_list_view);
